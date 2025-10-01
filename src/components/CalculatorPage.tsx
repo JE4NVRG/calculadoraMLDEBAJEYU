@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CalculatorInput, CalculationResult, DEFAULT_VALUES } from '../types/calculator';
+import { CalculatorInput, CalculationResult, DEFAULT_VALUES, CalculatorPreset } from '../types/calculator';
 import { calculateProfitAndMargin } from '../utils/calculator';
 import { CalculatorForm } from './CalculatorForm';
 import { ResultsCard } from './ResultsCard';
@@ -37,7 +37,7 @@ export function CalculatorPage() {
     setResult(calculationResult);
   }, [input]);
 
-  const handleInputChange = (field: keyof CalculatorInput, value: number) => {
+  const handleInputChange = (field: keyof CalculatorInput, value: number | boolean) => {
     setInput(prev => ({
       ...prev,
       [field]: value
@@ -75,17 +75,31 @@ export function CalculatorPage() {
             />
             
             <UtilityControls
-              input={input}
+              values={input}
               result={result}
-              onClearInputs={handleClearInputs}
-              onLoadPreset={setInput}
+              onClear={handleClearInputs}
+              onLoadPreset={(preset: CalculatorPreset) => {
+                setInput(prev => ({
+                  ...prev,
+                  marketplaceFee: preset.marketplaceFee,
+                  shippingCost: preset.shippingCost,
+                  advanceFee: preset.advanceFee,
+                  ownerCommission: preset.ownerCommission,
+                  applyCommission: preset.applyCommission,
+                  commissionBase: preset.commissionBase
+                }));
+              }}
             />
           </div>
 
           {/* Right Column - Results and Info */}
           <div className="space-y-6">
             {result && (
-              <ResultsCard result={result} />
+              <ResultsCard 
+                result={result} 
+                commissionBase={input.commissionBase}
+                applyCommission={input.applyCommission}
+              />
             )}
             
             <HowItWorksSection />

@@ -8,7 +8,7 @@ import { applyCurrencyMask, applyPercentageMask, parseCurrency, parsePercentage 
 
 interface CalculatorFormProps {
   input: CalculatorInput;
-  onInputChange: (field: keyof CalculatorInput, value: number) => void;
+  onInputChange: (field: keyof CalculatorInput, value: number | boolean) => void;
 }
 
 export function CalculatorForm({ input, onInputChange }: CalculatorFormProps) {
@@ -122,9 +122,9 @@ export function CalculatorForm({ input, onInputChange }: CalculatorFormProps) {
               Aplicar comissão 4%?
             </Label>
             <Select
-              value={input.hasOwnerCommission ? 'yes' : 'no'}
+              value={input.applyCommission ? 'yes' : 'no'}
               onValueChange={(value) => {
-                onInputChange('hasOwnerCommission', value === 'yes' ? true : false);
+                onInputChange('applyCommission', value === 'yes' ? true : false);
               }}
             >
               <SelectTrigger>
@@ -137,7 +137,7 @@ export function CalculatorForm({ input, onInputChange }: CalculatorFormProps) {
             </Select>
           </div>
 
-          {input.hasOwnerCommission && (
+          {input.applyCommission && (
             <>
               <div className="space-y-2">
                 <Label htmlFor="ownerCommission" className="text-sm font-medium">
