@@ -48,7 +48,7 @@ export interface StoredPresets {
 // Valores padrão da calculadora
 export const DEFAULT_VALUES: CalculatorInput = {
   salePrice: 250.00,
-  marketplaceFee: 16.8,
+  marketplaceFee: 16.5,
   shippingCost: 22.00,
   advanceFee: 3.8,
   ownerCommission: 4.0,
